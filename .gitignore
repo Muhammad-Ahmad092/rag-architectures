@@ -1,0 +1,18 @@
+# secrets
+.env
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+# local indexes / uploads
+**/.index/
+**/.index-eval/
+**/eval/results.json.tmp
+# tooling scratch
+.superpowers/
+# internal planning docs + local push guide (not published)
+/docs/
+/PUSH_GUIDE.md
+/BRANCHING_STRATEGY.md
