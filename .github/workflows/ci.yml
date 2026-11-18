@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.find.outputs.folders }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        name: Find RAG type folders on this branch
+        run: |
+          folders=$(ls -d */pyproject.toml 2>/dev/null | xargs -r -n1 dirname | grep -v '^scripts$' \
+            | python3 -c 'import json,sys; print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))')
+          echo "folders=${folders:-[]}" >> "$GITHUB_OUTPUT"
+          echo "Found: ${folders:-[]}"
+
+  test:
+    needs: discover
+    if: needs.discover.outputs.folders != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: ${{ fromJson(needs.discover.outputs.folders) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.folder }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+      - run: uv sync --extra all --extra dev
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest -q
