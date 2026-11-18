@@ -1,0 +1,45 @@
+[project]
+name = "naive-rag"
+version = "0.1.0"
+description = "Naive RAG: top-k retrieve, stuff the prompt, generate. No rewriting, reranking or verification."
+license = "Apache-2.0"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "pydantic-settings>=2.6",
+    "openai>=1.60",
+    "sentence-transformers>=3.3",
+    "chromadb>=0.6",
+    "pypdf>=5.1",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+    "beautifulsoup4>=4.12",
+    "streamlit>=1.41",
+]
+
+[project.optional-dependencies]
+faiss = ["faiss-cpu>=1.9", "numpy>=1.26"]
+qdrant = ["qdrant-client>=1.12"]
+lancedb = ["lancedb>=0.17", "pyarrow>=18"]
+pinecone = ["pinecone>=5.4"]
+weaviate = ["weaviate-client>=4.10"]
+gemini = ["google-genai>=1.0"]
+cohere = ["cohere>=5.13"]
+voyage = ["voyageai>=0.3"]
+eval = ["ragas>=0.4.3", "langchain-community<0.4", "langchain-openai>=0.3", "langchain-anthropic>=0.3", "datasets>=3.2"]
+all = ["naive-rag[faiss,qdrant,lancedb,pinecone,weaviate,gemini,cohere,voyage]"]
+dev = ["pytest>=8.3", "ruff>=0.8"]
+
+[build-system]
+requires = ["uv_build>=0.10.9,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: downloads a model or is otherwise slow"]
