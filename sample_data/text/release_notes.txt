@@ -1,0 +1,20 @@
+NimbusOS firmware release notes
+===============================
+
+3.5.0 (2026-09-30)
+- New: dynamic aisle re-routing when an obstacle blocks a pick path for more than 20 seconds.
+- New: battery health telemetry in the cloud console.
+- Changed: default maximum speed of the Nimbus X1 lowered to 2.0 m/s in mixed human zones.
+
+3.4.2 (2026-07-16)
+- Fix: clock-synchronization bug that halted X1 fleets after a leap-second style NTP correction.
+  This fix resolves incident INC-2041.
+- Fix: S2 gripper calibration drift after 10,000 cycles.
+
+3.4.1 (2026-06-20)
+- New: faster fleet map loading (about 40% faster on sites with more than 200 robots).
+- Known issue: rare clock drift under certain NTP configurations (see 3.4.2).
+
+3.4.0 (2026-05-02)
+- New: multi-floor support for Nimbus X1.
+- New: role-based access control in the cloud console.

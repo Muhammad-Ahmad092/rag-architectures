@@ -1,0 +1,1 @@
+Org chart of Nimbus Robotics leadership. Amara Okafor (CEO) is at the top. Reporting to the CEO: Lukas Brandt (CTO) and Diego Martins (Head of Customer Support). Reporting to the CTO: Priya Raman (Product Lead, Nimbus X1) and Mei Tanaka (Product Lead, Nimbus S2).

@@ -1,0 +1,1 @@
+Labeled diagram of the Nimbus X1 robot. The 360-degree LiDAR sits on top of the mast. Four depth cameras are mounted one per side. The suction gripper is on the front arm. The swappable battery bay is at the rear, near the charging contacts at the bottom.
