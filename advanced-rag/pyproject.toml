@@ -1,0 +1,60 @@
+[project]
+name = "advanced-rag"
+version = "0.1.0"
+description = "Advanced RAG: query rewriting, hybrid BM25+vector retrieval with RRF, Cohere rerank and answer checking; LlamaIndex + Claude."
+license = "Apache-2.0"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "llama-index-core>=0.14.25",
+    "anthropic>=0.70",
+    "llama-index-retrievers-bm25>=0.6",
+    "llama-index-postprocessor-cohere-rerank>=0.5",
+    "llama-index-embeddings-huggingface>=0.8",
+    "llama-index-vector-stores-chroma>=0.6",
+    "pydantic-settings>=2.6",
+    "pypdf>=5.1",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+    "beautifulsoup4>=4.12",
+    "streamlit>=1.41",
+]
+
+[project.optional-dependencies]
+faiss = ["llama-index-vector-stores-faiss>=0.7", "faiss-cpu>=1.9"]
+qdrant = ["llama-index-vector-stores-qdrant>=0.10"]
+lancedb = ["llama-index-vector-stores-lancedb>=0.6"]
+pinecone = ["llama-index-vector-stores-pinecone>=0.9"]
+weaviate = ["llama-index-vector-stores-weaviate>=1.7"]
+openai = ["llama-index-embeddings-openai>=0.7"]
+gemini = ["llama-index-embeddings-google-genai>=0.6"]
+cohere = ["llama-index-embeddings-cohere>=0.9"]
+voyage = ["llama-index-embeddings-voyageai>=0.7"]
+eval = [
+    "ragas>=0.4.3",
+    "langchain-community<0.4",
+    "langchain-anthropic>=0.3",
+    "langchain-openai>=1.0",  # fair-mode generator
+    "datasets>=3.2",
+]
+all = ["advanced-rag[faiss,qdrant,lancedb,pinecone,weaviate,openai,gemini,cohere,voyage]"]
+dev = ["pytest>=8.3", "ruff>=0.8"]
+
+[build-system]
+requires = ["uv_build>=0.10.9,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+markers = ["slow: downloads a model or is otherwise slow"]
+
+[tool.uv]
+# NLTK (used by SentenceSplitter) refuses hard-linked files; uv hard-links from its cache by default
+link-mode = "copy"
