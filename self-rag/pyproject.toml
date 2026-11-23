@@ -1,0 +1,63 @@
+[project]
+name = "self-rag"
+version = "0.1.0"
+description = "Self-RAG: LangGraph retrieve/grade/rewrite/generate/verify loop on Claude."
+license = "Apache-2.0"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "langgraph>=1.0",
+    "anthropic>=0.70",
+    "langchain-core>=1.0",
+    "langchain-text-splitters>=1.0",
+    "langchain-huggingface>=1.0",
+    "sentence-transformers>=3.0",
+    "langchain-chroma>=1.0",
+    "pydantic-settings>=2.6",
+    "pypdf>=5.1",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+    "beautifulsoup4>=4.12",
+    "streamlit>=1.41",
+]
+
+[project.optional-dependencies]
+# FAISS and LanceDB live in langchain-community; <0.4 keeps it compatible with ragas (eval)
+faiss = ["langchain-community>=0.3.31,<0.4", "faiss-cpu>=1.9"]
+qdrant = ["langchain-qdrant>=1.0"]
+lancedb = ["langchain-community>=0.3.31,<0.4", "lancedb>=0.17"]
+pinecone = ["langchain-pinecone>=0.2"]
+weaviate = ["langchain-weaviate>=0.0.5", "weaviate-client>=4.10"]
+openai = ["langchain-openai>=1.0"]
+gemini = ["langchain-google-genai>=3.0"]
+cohere = ["langchain-cohere>=0.4"]
+voyage = ["langchain-voyageai>=0.1"]
+eval = [
+    "ragas>=0.4.3",
+    "langchain-community>=0.3.31,<0.4",
+    "langchain-anthropic>=1.0",
+    "langchain-openai>=1.0",  # fair-mode generator
+    "datasets>=3.2",
+]
+all = ["self-rag[faiss,qdrant,lancedb,pinecone,weaviate,openai,gemini,cohere,voyage]"]
+dev = ["pytest>=8.3", "ruff>=0.8"]
+
+[build-system]
+requires = ["uv_build>=0.10.9,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+markers = ["slow: downloads a model or is otherwise slow"]
+# LangChain warns when a store returns relevance outside [0, 1]; treat that as a bug
+filterwarnings = ["error:Relevance scores must be between:UserWarning"]
+
+[tool.uv]
+link-mode = "copy"
